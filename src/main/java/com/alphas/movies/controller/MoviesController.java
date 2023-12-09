@@ -1,22 +1,29 @@
 package com.alphas.movies.controller;
 
-import org.springframework.stereotype.Controller;
+import com.alphas.movies.security.Rules;
+import com.alphas.movies.services.MovieService;
+import com.alphas.movies.types.Movie;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class MoviesController {
+import java.util.List;
 
-    @GetMapping(value = "/test")
-    public String test(){
-        return "<!DOCTYPE html>\n" +
-                "<html>\n" +
-                "<body>\n" +
-                "\n" +
-                "<h1>My First Heading</h1>\n" +
-                "<p>My first paragraph.</p>\n" +
-                "\n" +
-                "</body>\n" +
-                "</html>";
+@RestController
+@RequestMapping("/api/v1/movies")
+public class MoviesController {
+    @Autowired
+    private MovieService movieService;
+
+    @Autowired
+    private Rules rules;
+
+    @GetMapping(value = "/allMovies")
+    public ResponseEntity<List<Movie>> test(){
+        return new ResponseEntity<List<Movie>>(movieService.allMovies(), HttpStatus.OK);
     }
+
 }
